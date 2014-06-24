@@ -26,6 +26,14 @@ public abstract class SocketActivity extends Activity {
 
     protected Thread _serverThread = null, _clientThread = null;
 
+    protected void setUpServer(int port) throws IOException {
+        this._server = new ServerSocket(port);
+    }
+
+    protected void setUpClient(String address, int port) throws IOException {
+        this._client = new Socket(address, port);
+    }
+
     protected void prepareServer() throws IOException{
         if(_server == null) throw new IllegalStateException("Server Not Ready");
         _client = _server.accept();
@@ -82,7 +90,13 @@ public abstract class SocketActivity extends Activity {
 
     @Override
     protected void onStop() {
-        this._serverThread.interrupt();
+        stopSocket();
+        super.onStop();
+    }
+
+    protected void stopSocket(){
+        if(this._serverThread != null)
+            this._serverThread.interrupt();
         this._serverThread = null;
         if(this._clientThread != null)
             this._clientThread.interrupt();
@@ -93,7 +107,6 @@ public abstract class SocketActivity extends Activity {
         try {
             this._server.close();
         }catch (Exception e){}
-        super.onStop();
     }
 
     protected abstract void onDataRead(String data);

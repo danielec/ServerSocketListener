@@ -13,6 +13,9 @@ import android.os.Build;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.IOException;
 
 import corti.me.serversocketlistener.R;
 
@@ -84,9 +87,15 @@ public class MainActivity extends SocketActivity {
             switch (radioGroup.getCheckedRadioButtonId()){
                 case R.id.mode_c:
                     //Abilita Porta e Indirizzo
+                    findViewById(R.id.address).setEnabled(true);
+                    findViewById(R.id.port).setEnabled(true);
+                    findViewById(R.id.connect_btn).setEnabled(true);
                 break;
                 case R.id.mode_s:
                     //Abilita solo Porta
+                    findViewById(R.id.address).setEnabled(false);
+                    findViewById(R.id.port).setEnabled(true);
+                    findViewById(R.id.connect_btn).setEnabled(true);
                 break;
             }
         }
@@ -96,5 +105,60 @@ public class MainActivity extends SocketActivity {
         EditText t = (EditText) findViewById(R.id.input_txt);
         String tosend = t.getText().toString();
         this.sendData(tosend);
+    }
+
+    public void connect(View view){
+        String address = ((EditText) findViewById(R.id.address)).getText().toString();
+        int port = 0;
+        try{
+            port = Integer.valueOf(((EditText) findViewById(R.id.port)).getText().toString());
+        }catch (Exception e){}
+
+        RadioGroup rg = (RadioGroup) this.findViewById(R.id.states);
+        int mode = rg.getCheckedRadioButtonId();
+        if(mode == R.id.mode_c){
+            Toast.makeText(this, "Attenzione: e' necessario indicare l'indirizzo a cui connettersi!", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if(port <= 0){
+            Toast.makeText(this, "Attenzione: e' necessario indicare la porta per la connessione!", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+
+        switch (mode){
+            case R.id.mode_c:
+                try {
+                    this.setUpClient(address, port);
+                } catch (IOException e) {
+                    Toast.makeText(this, "Attenzione: si è verificato un errore: "+e.getMessage(), Toast.LENGTH_LONG).show();
+                    e.printStackTrace();
+                    return;
+                }
+                findViewById(R.id.input_txt).setEnabled(true);
+                findViewById(R.id.send_btn).setEnabled(true);
+                break;
+            case R.id.mode_s:
+                try {
+                    this.setUpServer(port);
+                    this.prepareServer();
+                } catch (IOException e) {
+                    Toast.makeText(this, "Attenzione: si è verificato un errore: "+e.getMessage(), Toast.LENGTH_LONG).show();
+                    e.printStackTrace();
+                    return;
+                }
+                findViewById(R.id.input_txt).setEnabled(false);
+                findViewById(R.id.send_btn).setEnabled(false);
+            break;
+        }
+        findViewById(R.id.disconnect_btn).setEnabled(true);
+        findViewById(R.id.connect_btn).setEnabled(false);
+    }
+
+    public void disconnect(View view){
+        this.stopSocket();
+        findViewById(R.id.disconnect_btn).setEnabled(false);
+        findViewById(R.id.connect_btn).setEnabled(true);
     }
 }

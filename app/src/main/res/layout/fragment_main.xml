@@ -74,8 +74,10 @@
             android:layout_weight="0.5"
             android:layout_height="wrap_content"
             android:text="@string/form_button_connect"
+            android:enabled="false"
             android:id="@+id/connect_btn"
             style="@android:style/DeviceDefault.Light.SegmentedButton"
+            android:onClick="connect"
             />
         <Button
             android:layout_width="0dp"
@@ -85,6 +87,7 @@
             android:id="@+id/disconnect_btn"
             android:enabled="false"
             style="@android:style/DeviceDefault.Light.SegmentedButton"
+            android:onClick="disconnect"
             />
         </LinearLayout>
 
