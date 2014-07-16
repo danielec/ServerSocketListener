@@ -1,15 +1,15 @@
 package me.corti.serversocketlistener;
 
+
 import android.app.Activity;
-import android.app.ActionBar;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -17,10 +17,10 @@ import android.widget.Toast;
 
 import java.io.IOException;
 
-import corti.me.serversocketlistener.R;
+import me.corti.serversocketlistener.R;
 
 
-public class MainActivity extends SocketActivity {
+public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,12 +51,6 @@ public class MainActivity extends SocketActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onDataRead(String data) {
-        TextView mTextView = (TextView)this.findViewById(R.id.output_txt);
-        mTextView.append(data+"\n");
     }
 
     /**
@@ -101,11 +95,6 @@ public class MainActivity extends SocketActivity {
         }
     };
 
-    public void sendTxt(View v){
-        EditText t = (EditText) findViewById(R.id.input_txt);
-        String tosend = t.getText().toString();
-        this.sendData(tosend);
-    }
 
     public void connect(View view){
         String address = ((EditText) findViewById(R.id.address)).getText().toString();
@@ -116,7 +105,7 @@ public class MainActivity extends SocketActivity {
 
         RadioGroup rg = (RadioGroup) this.findViewById(R.id.states);
         int mode = rg.getCheckedRadioButtonId();
-        if(mode == R.id.mode_c){
+        if(mode == R.id.mode_c && address == null){
             Toast.makeText(this, "Attenzione: e' necessario indicare l'indirizzo a cui connettersi!", Toast.LENGTH_LONG).show();
             return;
         }
@@ -129,36 +118,26 @@ public class MainActivity extends SocketActivity {
 
         switch (mode){
             case R.id.mode_c:
-                try {
-                    this.setUpClient(address, port);
-                } catch (IOException e) {
-                    Toast.makeText(this, "Attenzione: si è verificato un errore: "+e.getMessage(), Toast.LENGTH_LONG).show();
-                    e.printStackTrace();
-                    return;
-                }
-                findViewById(R.id.input_txt).setEnabled(true);
-                findViewById(R.id.send_btn).setEnabled(true);
+                startClient(address, port);
                 break;
             case R.id.mode_s:
-                try {
-                    this.setUpServer(port);
-                    this.prepareServer();
-                } catch (IOException e) {
-                    Toast.makeText(this, "Attenzione: si è verificato un errore: "+e.getMessage(), Toast.LENGTH_LONG).show();
-                    e.printStackTrace();
-                    return;
-                }
-                findViewById(R.id.input_txt).setEnabled(false);
-                findViewById(R.id.send_btn).setEnabled(false);
+                startServer(port);
             break;
         }
-        findViewById(R.id.disconnect_btn).setEnabled(true);
-        findViewById(R.id.connect_btn).setEnabled(false);
+
     }
 
-    public void disconnect(View view){
-        this.stopSocket();
-        findViewById(R.id.disconnect_btn).setEnabled(false);
-        findViewById(R.id.connect_btn).setEnabled(true);
+    public void startClient(String address, int port){
+        Intent newIntent = new Intent(this, ClientActivity.class);
+        newIntent.putExtra(ClientActivity.SERVER_PORT, port);
+        newIntent.putExtra(ClientActivity.SERVER_ADDRESS, address);
+        startActivity(newIntent);
     }
+
+    public void startServer(int port){
+        Intent newIntent = new Intent(this, ServerActivity.class);
+        newIntent.putExtra(ServerActivity.SERVER_PORT, port);
+        startActivity(newIntent);
+    }
+
 }

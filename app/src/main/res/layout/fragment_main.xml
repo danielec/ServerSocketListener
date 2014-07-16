@@ -63,15 +63,9 @@
         />
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        style="@android:style/DeviceDefault.Light.ButtonBar"
-        >
         <Button
-            android:layout_width="0dp"
-            android:layout_weight="0.5"
+            android:layout_width="match_parent"
+
             android:layout_height="wrap_content"
             android:text="@string/form_button_connect"
             android:enabled="false"
@@ -79,70 +73,6 @@
             style="@android:style/DeviceDefault.Light.SegmentedButton"
             android:onClick="connect"
             />
-        <Button
-            android:layout_width="0dp"
-            android:layout_weight="0.5"
-            android:layout_height="wrap_content"
-            android:text="@string/form_button_disconnect"
-            android:id="@+id/disconnect_btn"
-            android:enabled="false"
-            style="@android:style/DeviceDefault.Light.SegmentedButton"
-            android:onClick="disconnect"
-            />
-        </LinearLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/state"
-        android:textSize="18sp"
-        />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/state_disconnected"
-        android:textSize="18sp"
-        />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/input_txt"
-        android:layout_marginTop="20sp"
-        />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
-        <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/input_txt"
-            android:enabled="false"
-            />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/send_btn"
-            android:onClick="sendTxt"
-            android:enabled="false"
-            android:id="@+id/send_btn"
-            />
-    </LinearLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/output_txt"/>
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/output_txt"
-            />
-    </ScrollView>
 
 </LinearLayout>

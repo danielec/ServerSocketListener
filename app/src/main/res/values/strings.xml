@@ -1,28 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-
     <string name="form_mode">Modalità:</string>
     <string name="form_mode_s">Server</string>
     <string name="form_mode_c">Client</string>
-
     <string name="form_port">Porta:</string>
     <string name="form_address">Indirizzo Server:</string>
     <string name="form_button_connect">Connessione</string>
     <string name="form_button_disconnect">Disconnessione</string>
-
     <string name="state">Stato:</string>
     <string name="state_disconnected">Disconnesso...</string>
     <string name="state_handshaking">In Connessione...</string>
     <string name="state_connected">Connesso...</string>
-
     <string name="input_txt">Invio Testo:</string>
     <string name="output_txt">Testo Ricevuto:</string>
     <string name="send_btn">Invia</string>
-
-
     <string name="app_name">Server Socket Listener</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_client">Client Activity</string>
+    <string name="client_txt">Scrivere il testo da inviare e premete il bottone!</string>
+    <string name="txt_prompt">Testo...</string>
+    <string name="btn_send">Invia</string>
+    <string name="title_activity_server">Server Activity</string>
+
+    <string name="server_txt">Dati Ricevuti dal Client</string>
+
 
 </resources>
